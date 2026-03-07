@@ -6,12 +6,12 @@ $queryResult = $dbConnection->query($sqlQuery);
 
 //empty arrays to store comments based on keywords
 $commentsAboutCandy = [];
-$commentsAboutCalls = [];
-$commentsAboutReferrals = [];
+$commentsAboutCalls  = [];
+$commentsAboutReferrals  = [];
 $commentsAboutSignatures = [];
-$miscellaneousComments = [];
+$miscellaneousComments  = [];
 
-//loop through the query results and categorize comments based on keywords 
+//loop through the query results and categorize comments based on keywords
 while ($currentRow = $queryResult->fetch_assoc()) {
     $checkForCommentType = strtolower($currentRow['comments']);
 
@@ -26,4 +26,14 @@ while ($currentRow = $queryResult->fetch_assoc()) {
     } else {
         $miscellaneousComments[] = $currentRow['comments'];
     }
+}
+
+//function to render comments in a list
+function renderComments(string $title, array $comments) {
+    echo "<h2>$title</h2>";
+    echo "<ul>";
+    foreach ($comments as $comment) {
+        echo "<li>" . htmlspecialchars($comment) . "</li>";
+    }
+    echo "</ul>";
 }
