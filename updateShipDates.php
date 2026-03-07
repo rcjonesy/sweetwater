@@ -13,7 +13,7 @@ while ($currentRow = $queryResult->fetch_assoc()) {
     if (str_contains(strtolower($currentComment), 'expected ship date')) {
         //find the position of the colon in the comment
         $positionOfColon = strpos($currentComment, ':');
-        //extrat the date from the comment and remove any whitespace
+        //extract the date from the comment and remove any whitespace
         $extractedDate = trim(substr($currentComment, $positionOfColon + 1));
         //format the date to be compatible with the database
         $formattedDate = parseDateFromComment($extractedDate);
@@ -23,7 +23,7 @@ while ($currentRow = $queryResult->fetch_assoc()) {
         echo "Updated order <strong>{$currentRow['orderid']}</strong> with shipping date <strong>$formattedDate</strong><br>";
     }
 }
-echo "</strong>All Shipping dates updated successfully.</strong>";
+echo "<strong>All Shipping dates updated successfully.</strong>";
 
 function parseDateFromComment(string $extractedDate): string
 {
