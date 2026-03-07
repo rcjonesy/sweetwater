@@ -1,3 +1,2 @@
 <?php
-require 'db.php';
-?>
+require 'comments.php';
