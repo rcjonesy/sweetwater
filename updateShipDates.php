@@ -10,16 +10,21 @@ $queryResult = $dbConnection->query($sqlQuery);
 
 while ($currentRow = $queryResult->fetch_assoc()) {
     $currentComment = $currentRow['comments'];
-    // only process rows that contain an expected ship date in the comment
     if (str_contains(strtolower($currentComment), 'expected ship date')) {
-        //find the position of the colon in the comment and extract the date that follows it
+        //find the position of the colon in the comment
         $positionOfColon = strpos($currentComment, ':');
-        $extractDate = substr($currentComment, $positionOfColon + 1);
-        $date = strtotime($extractDate);
-        // format it for SQL
-        $formattedDate = date('Y-m-d', $date);
+        //extrat the date from the comment and remove any whitespace
+        $extractedDate = trim(substr($currentComment, $positionOfColon + 1));
+        //format the date to be compatible with the database
+        $formattedDate = parseDateFromComment($extractedDate);
         //run query to update the ship date for the current order
         $dbConnection->query("UPDATE sweetwater_test SET shipdate_expected = '$formattedDate' WHERE orderid = '" . $currentRow['orderid'] . "'");
     }
 }
 echo "Ship dates updated successfully.";
+
+function parseDateFromComment(string $extractedDate): string
+{
+    $date = strtotime($extractedDate);
+    return date('Y-m-d', $date);
+}
