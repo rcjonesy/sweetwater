@@ -19,9 +19,11 @@ while ($currentRow = $queryResult->fetch_assoc()) {
         $formattedDate = parseDateFromComment($extractedDate);
         //run query to update the ship date for the current order
         $dbConnection->query("UPDATE sweetwater_test SET shipdate_expected = '$formattedDate' WHERE orderid = '" . $currentRow['orderid'] . "'");
+        // Inform the user that this row has been updated
+        echo "Updated order <strong>{$currentRow['orderid']}</strong> with shipping date <strong>$formattedDate</strong><br>";
     }
 }
-echo "Ship dates updated successfully.";
+echo "</strong>All Shipping dates updated successfully.</strong>";
 
 function parseDateFromComment(string $extractedDate): string
 {
