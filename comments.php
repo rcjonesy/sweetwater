@@ -13,17 +13,27 @@ $miscellaneousComments = [];
 
 //loop through the query results and categorize comments based on keywords
 while ($currentRow = $queryResult->fetch_assoc()) {
-    $checkForCommentType = strtolower($currentRow['comments']);
+    $commentLower = strtolower($currentRow['comments']);
+    //boolean to track if any keyword matches were found for the current comment
+    $keywordMatchFound = false;
 
-    if (str_contains($checkForCommentType, 'candy')) {
+    if (str_contains($commentLower, 'candy')) {
         $commentsAboutCandy[] = $currentRow['comments'];
-    } elseif (str_contains($checkForCommentType, 'call')) {
+        $keywordMatchFound = true;
+    }
+    if (str_contains($commentLower, 'call')) {
         $commentsAboutCalls[] = $currentRow['comments'];
-    } elseif (str_contains($checkForCommentType, 'referred') || str_contains($checkForCommentType, 'referral')) {
+        $keywordMatchFound = true;
+    }
+    if (str_contains($commentLower, 'referred') || str_contains($commentLower, 'referral')) {
         $commentsAboutReferrals[] = $currentRow['comments'];
-    } elseif (str_contains($checkForCommentType, 'signature')) {
+        $keywordMatchFound = true;
+    }
+    if (str_contains($commentLower, 'signature')) {
         $commentsAboutSignatures[] = $currentRow['comments'];
-    } else {
+        $keywordMatchFound = true;
+    }
+    if (!$keywordMatchFound) {
         $miscellaneousComments[] = $currentRow['comments'];
     }
 }
